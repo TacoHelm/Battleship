@@ -26,17 +26,16 @@ function createFleet (name) {
     ships[index].hits += 1
     if (ships[index].hits === ships[index].length) {
       ships[index].sunk = true
-      console.log(`A ${ships[index].name} from ${name } sunk!`)
-      fleetStatus()    
+      console.log(`A ${ships[index].name} from ${name} sunk!`)
+      fleetStatus()
     }
-    return 
   }
   function fleetStatus () {
     let allSunk = true
     for (const ship of ships) {
       if (ship.sunk === false) allSunk = false
     }
-    if (allSunk === true) game.end(name) 
+    if (allSunk === true) game.end(name)
   }
   function placeFleet () {
     ships.forEach((ship, index) => {
@@ -53,8 +52,8 @@ function createFleet (name) {
           if (dir === 2) fields.push([x, y + i])
           if (dir === 3) fields.push([x, y - i])
         }
-      if (name === 'human') result = computer.board.putShip(fields, index)
-      if (name === 'computer') result = human.board.putShip(fields, index) 
+        if (name === 'human') result = computer.board.putShip(fields, index)
+        if (name === 'computer') result = human.board.putShip(fields, index)
       }
     })
   }

@@ -1,9 +1,9 @@
-import { human, computer } from './index.js'
+import { human, computer, UI } from './index.js'
 
 function createBoard (name) {
-  const fields = [];                                 
+  const fields = []
   for (let x = 0; x < 10; x++) {
-    fields.push([]);
+    fields.push([])
     for (let y = 0; y < 10; y++) {
       fields[x].push({ empty: true, hit: false })
     }
@@ -11,14 +11,15 @@ function createBoard (name) {
   const attack = function ([x, y]) {
     if (fields[x][y].hit === true) return false
     fields[x][y].hit = true
+    UI.setHit(name, x, y)
     if (fields[x][y].empty === true) {
       console.log('Shot misses')
       return true
     }
     if (fields[x][y].empty === false) {
       console.log('Hit!')
-      if (name === 'human') computer.fleet.hit(fields[x][y].fleetArrayIndex)
-      if (name === 'computer') human.fleet.hit(fields[x][y].fleetArrayIndex)
+      if (name === 'computer') computer.fleet.hit(fields[x][y].fleetArrayIndex)
+      if (name === 'human') human.fleet.hit(fields[x][y].fleetArrayIndex)
     }
     return true
   }
@@ -38,7 +39,10 @@ function createBoard (name) {
     })
     return true
   }
-  return { attack, putShip }
+  const getField = function (x, y) {
+    return fields[x][y]
+  }
+  return { attack, putShip, getField }
 }
 
 export { createBoard }

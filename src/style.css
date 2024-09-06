@@ -1,0 +1,34 @@
+.title{
+    font-size: 32px;
+}
+
+.board {
+    display: grid;
+    grid-template: repeat(10, 1fr) / repeat(10, 1fr); 
+    height: 500px;
+    width: 500px;
+    margin: 20px;
+}
+
+.field {
+    margin: 3px;
+}
+
+.ship.hit {
+    background-color: red;
+}
+
+.human.empty,
+.computer.empty.hit {
+    background-color: blue;
+}
+
+.human.ship.not-hit {
+    background-color: black;
+}
+
+.computer.not-hit {
+    background-color: grey;
+}
+
+
