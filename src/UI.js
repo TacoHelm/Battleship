@@ -6,6 +6,8 @@ function createUI () {
   const title = container.appendChild(document.createElement('div'))
   title.classList.add('title')
   title.textContent = 'Zeeslag'
+  const messageBox = container.appendChild(document.createElement('div'))
+  messageBox.classList.add('messageBox')
   const humanBoard = container.appendChild(document.createElement('div'))
   const computerBoard = container.appendChild(document.createElement('div'))
   humanBoard.classList.add('board')
@@ -37,7 +39,14 @@ function createUI () {
       computerFields[x][y].classList.remove('not-hit')
     }
   }
-  return { setHit }
+  let timer
+  function setMessage (string) {
+    messageBox.textContent = string
+    messageBox.classList.add('new')
+    if (timer !== undefined) clearTimeout(timer)
+    timer = setTimeout(()=> messageBox.classList.remove('new'), 2500)
+  }
+  return { setHit, setMessage }
 }
 
 export { createUI }

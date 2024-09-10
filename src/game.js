@@ -1,4 +1,4 @@
-import { human, computer } from './index'
+import { human, computer, UI } from './index'
 
 function createGame () {
   const computerTurn = function () {
@@ -20,9 +20,8 @@ function createGame () {
     }
   }
   const end = function (name) {
-    console.log(`${name} has lost his fleet`)
-    if (name === 'human') console.log('computer has won')
-    if (name === 'computer') console.log('you have won')
+    if (name === 'human') UI.setMessage('Player has lost his fleet. Computer has won')
+    if (name === 'computer') UI.setMessage('Computer has lost his fleet. You have won')
   }
   return { humanTurn, end }
 }

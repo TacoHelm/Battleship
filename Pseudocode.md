@@ -32,6 +32,7 @@ Initialize 2 new Players call placeFleet call game.loop
 UI
 Container div for the entire game
   Title div
+  Message div
   Human board
   Computer board
     A grid of 10 x 10 divs in arrays humanFields or humanBoard
@@ -39,5 +40,6 @@ Container div for the entire game
     With event listener that calls a playerTurn  
 
 setHit(name, [x, y])     Changes the class from not-hit to hit for the field [x, y] in board of name
+setMessage(string)       Sets the text in the message div to supplied string and adds class 'new' for 2.5second to highlight message
 
  

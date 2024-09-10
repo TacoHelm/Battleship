@@ -1,4 +1,4 @@
-import { human, computer, game } from './index.js'
+import { human, computer, game, UI } from './index.js'
 
 function createFleet (name) {
   const ships = [
@@ -26,7 +26,7 @@ function createFleet (name) {
     ships[index].hits += 1
     if (ships[index].hits === ships[index].length) {
       ships[index].sunk = true
-      console.log(`A ${ships[index].name} from ${name} sunk!`)
+      UI.setMessage(`A ${ships[index].name} from ${name} sunk!`)
       fleetStatus()
     }
   }

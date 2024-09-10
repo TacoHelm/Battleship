@@ -13,11 +13,9 @@ function createBoard (name) {
     fields[x][y].hit = true
     UI.setHit(name, x, y)
     if (fields[x][y].empty === true) {
-      console.log('Shot misses')
       return true
     }
     if (fields[x][y].empty === false) {
-      console.log('Hit!')
       if (name === 'computer') computer.fleet.hit(fields[x][y].fleetArrayIndex)
       if (name === 'human') human.fleet.hit(fields[x][y].fleetArrayIndex)
     }
