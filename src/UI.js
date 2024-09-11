@@ -1,6 +1,7 @@
 import { human, computer, game } from './index'
 
 function createUI () {
+  const messageQueue = []                                 // Queue for messages to display by function setMessage
   const body = document.querySelector('body')
   const container = body.appendChild(document.createElement('div'))
   const title = container.appendChild(document.createElement('div'))
@@ -39,12 +40,21 @@ function createUI () {
       computerFields[x][y].classList.remove('not-hit')
     }
   }
-  let timer
   function setMessage (string) {
-    messageBox.textContent = string
+    messageQueue.push(string)
+    if (!messageBox.classList.contains('new')) {          // Tests indirectly if there is an active timeout
+    messageBox.textContent = messageQueue.shift()
     messageBox.classList.add('new')
-    if (timer !== undefined) clearTimeout(timer)
-    timer = setTimeout(()=> messageBox.classList.remove('new'), 2500)
+    setTimeout(setMessageCallback, 2500)
+    }
+  }
+  function setMessageCallback () {                        // Callback for timeout in function setMessage
+    messageBox.classList.remove('new')
+    if (messageQueue.length > 0){
+    messageBox.textContent = messageQueue.shift()
+    messageBox.classList.add('new')
+    setTimeout(setMessageCallback, 2500)
+    }
   }
   return { setHit, setMessage }
 }

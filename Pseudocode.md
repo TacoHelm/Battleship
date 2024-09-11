@@ -40,6 +40,6 @@ Container div for the entire game
     With event listener that calls a playerTurn  
 
 setHit(name, [x, y])     Changes the class from not-hit to hit for the field [x, y] in board of name
-setMessage(string)       Sets the text in the message div to supplied string and adds class 'new' for 2.5second to highlight message
+setMessage(string)       Adds the message to a message queue to be displayed in messageBox div at least 2.5 seconds and highlighted with class new for 2.5 seconds.  
 
  
