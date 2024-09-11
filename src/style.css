@@ -15,6 +15,10 @@
 }
 
 .ship.hit {
+    background-color: orange;
+}
+
+.ship.sunk {
     background-color: red;
 }
 

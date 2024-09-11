@@ -10,7 +10,7 @@ function createGame () {
     }
   }
   const humanTurn = function (evt) {
-    for (let item of evt.target.classList) {
+    for (const item of evt.target.classList) {
       if (item.slice(0, 2) === 'xy') {
         const x = item.charAt(2)
         const y = item.charAt(3)

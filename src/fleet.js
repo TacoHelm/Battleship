@@ -21,12 +21,14 @@ function createFleet (name) {
   for (const ship of ships) {
     ship.hits = 0
     ship.sunk = false
+    ship.fields = []
   }
   function hit (index) {
     ships[index].hits += 1
     if (ships[index].hits === ships[index].length) {
       ships[index].sunk = true
       UI.setMessage(`A ${ships[index].name} from ${name} sunk!`)
+      UI.displaySunk(ships[index].fields, name)
       fleetStatus()
     }
   }
@@ -52,10 +54,14 @@ function createFleet (name) {
           if (dir === 2) fields.push([x, y + i])
           if (dir === 3) fields.push([x, y - i])
         }
-        if (name === 'human') result = computer.board.putShip(fields, index)
-        if (name === 'computer') result = human.board.putShip(fields, index)
+        if (name === 'human') result = human.board.putShip(fields, index)
+        if (name === 'computer') result = computer.board.putShip(fields, index)
+        if (result === true) {
+          ships[index].fields = fields
+        }
       }
     })
+  console.log(name, ships)
   }
   return { hit, placeFleet, fleetStatus }
 }

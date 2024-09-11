@@ -2,18 +2,18 @@ BOARD
 Array(10) of Array(10) of field objects with properties empty(boolean) hit(boolean) fleetArrayIndex(number)
 
 attack(field)                           if hit = true return false, set hit to true, log 'Miss' when empty = true, call fleet.hit(fleetArrayIndex) when empty = false
-putShip(array of fields, shipIndex)     checks if fields are all empty and valid, if not return false, for fields in array set empty to false and create field 
-                                        fleetArrayIndex
+putShip(array of fields, shipIndex)     checks if fields are all empty and valid, if not return false, for fields in array set empty to false, create field 
+                                        fleetArrayIndex and return true
 getField([x, y])                        returns the field object at x, y
 
 
 FLEET
-array of ship objects with properties name(string) length(number) hits(number) shipSunk(boolean)
+array of ship objects with properties name(string) length(number) hits(number) shipSunk(boolean) fields(array)
 
-hit(fleetArrayIndex)        hit++, change shipSunk if hits = length, call fleetStatus and log a message
+hit(fleetArrayIndex)        hit++, change shipSunk if hits = length, display a messaga, call UI.displaySunk, call fleetStatus 
 fleetStatus()               calls game.end() if all ships have been sunk
 placeFleet()                for each ship call putShip with a array of consecutive fields in a random direction and the index of the fleet array of the ship and
-                            keep calling putShip until true is returned                   
+                            keep calling putShip until return is true. Add that array to fields array of ship object                 
                 
 
 PLAYER
@@ -39,7 +39,8 @@ Container div for the entire game
     With classes human/computer, not-hit, ship/empty, and xy00 with 00 the X and Y coordinates
     With event listener that calls a playerTurn  
 
-setHit(name, [x, y])     Changes the class from not-hit to hit for the field [x, y] in board of name
-setMessage(string)       Adds the message to a message queue to be displayed in messageBox div at least 2.5 seconds and highlighted with class new for 2.5 seconds.  
+setHit(name, [x, y])          Changes the class from not-hit to hit for the field [x, y] in board of name
+setMessage(string)            Adds the message to a message queue to be displayed in messageBox div at least 2.5s and highlighted with class new for 2.5s.  
+displaySunk(fields, name)     Removes class hit and sets it to sunk for ship with given fleetArrayIndex
 
  

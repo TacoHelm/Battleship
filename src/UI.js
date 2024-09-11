@@ -21,7 +21,7 @@ function createUI () {
     for (let y = 0; y < 10; y++) {
       humanFields[x].push(humanBoard.appendChild(document.createElement('div')))
       computerFields[x].push(computerBoard.appendChild(document.createElement('div')))
-      humanFields[x][y].classList.add('field', 'human', 'not-hit',`xy${x}${y}`)
+      humanFields[x][y].classList.add('field', 'human', 'not-hit', `xy${x}${y}`)
       computerFields[x][y].classList.add('field', 'computer', 'not-hit', `xy${x}${y}`)
       computerFields[x][y].addEventListener('click', (evt) => {
         game.humanTurn(evt)
@@ -56,7 +56,19 @@ function createUI () {
     setTimeout(setMessageCallback, 2500)
     }
   }
-  return { setHit, setMessage }
+  function displaySunk (fields, name) {                               
+    fields.forEach(([x, y]) => {
+      if (name === 'human') {
+        humanFields[x][y].classList.remove('hit')
+        humanFields[x][y].classList.add('sunk')
+      }
+      if (name === 'computer') {
+        computerFields[x][y].classList.remove('hit')
+        computerFields[x][y].classList.add('sunk')
+      }
+    });
+  }
+  return { setHit, setMessage, displaySunk }
 }
 
 export { createUI }
