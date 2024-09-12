@@ -1,7 +1,7 @@
 import { human, computer, game } from './index'
 
 function createUI () {
-  const messageQueue = []                                 // Queue for messages to display by function setMessage
+  const messageQueue = [] // Queue for messages to display by function setMessage
   const body = document.querySelector('body')
   const container = body.appendChild(document.createElement('div'))
   container.classList.add('container')
@@ -10,9 +10,23 @@ function createUI () {
   title.textContent = 'Zeeslag'
   const messageBox = container.appendChild(document.createElement('div'))
   messageBox.classList.add('messageBox')
-  const humanBoard = container.appendChild(document.createElement('div'))
-  const computerBoard = container.appendChild(document.createElement('div'))
+  const humanContainer = container.appendChild(document.createElement('div'))
+  const humanTitle = humanContainer.appendChild(document.createElement('div'))
+  const humanFleet = humanContainer.appendChild(document.createElement('div'))
+  const humanBoard = humanContainer.appendChild(document.createElement('div'))
+  humanContainer.classList.add('player-container', 'human')
+  humanTitle.classList.add('player-title')
+  humanTitle.textContent = 'You'
+  humanFleet.classList.add('fleet')
   humanBoard.classList.add('board')
+  const computerContainer = container.appendChild(document.createElement('div'))
+  const computerTitle = computerContainer.appendChild(document.createElement('div'))
+  const computerBoard = computerContainer.appendChild(document.createElement('div'))
+  const computerFleet = computerContainer.appendChild(document.createElement('div'))
+  computerContainer.classList.add('player-container', 'computer')
+  computerTitle.classList.add('player-title')
+  computerTitle.textContent = 'Computer'
+  computerFleet.classList.add('fleet')
   computerBoard.classList.add('board')
   const humanFields = []
   const computerFields = []
@@ -31,6 +45,15 @@ function createUI () {
       computer.board.getField(x, y).empty === true ? computerFields[x][y].classList.add('empty') : computerFields[x][y].classList.add('ship')
     }
   }
+  const shipTypes = human.fleet.fleetComposition()
+  for (let item of shipTypes){
+    const divHuman = humanFleet.appendChild(document.createElement('div'))
+    const divComputer = computerFleet.appendChild(document.createElement('div'))
+    let text = item.name + ' Length: ' + item.length + ' Nr: ' + item.number  
+    divHuman.textContent  = text
+    divComputer.textContent  = text
+  }
+
   function setHit (name, x, y) {
     if (name === 'human') {
       humanFields[x][y].classList.add('hit')
@@ -43,21 +66,21 @@ function createUI () {
   }
   function setMessage (string) {
     messageQueue.push(string)
-    if (!messageBox.classList.contains('new')) {          // Tests indirectly if there is an active timeout
-    messageBox.textContent = messageQueue.shift()
-    messageBox.classList.add('new')
-    setTimeout(setMessageCallback, 2500)
+    if (!messageBox.classList.contains('new')) { // Tests indirectly if there is an active timeout
+      messageBox.textContent = messageQueue.shift()
+      messageBox.classList.add('new')
+      setTimeout(setMessageCallback, 2500)
     }
   }
-  function setMessageCallback () {                        // Callback for timeout in function setMessage
+  function setMessageCallback () { // Callback for timeout in function setMessage
     messageBox.classList.remove('new')
-    if (messageQueue.length > 0){
-    messageBox.textContent = messageQueue.shift()
-    messageBox.classList.add('new')
-    setTimeout(setMessageCallback, 2500)
+    if (messageQueue.length > 0) {
+      messageBox.textContent = messageQueue.shift()
+      messageBox.classList.add('new')
+      setTimeout(setMessageCallback, 2500)
     }
   }
-  function displaySunk (fields, name) {                               
+  function displaySunk (fields, name) {
     fields.forEach(([x, y]) => {
       if (name === 'human') {
         humanFields[x][y].classList.remove('hit')
@@ -67,11 +90,9 @@ function createUI () {
         computerFields[x][y].classList.remove('hit')
         computerFields[x][y].classList.add('sunk')
       }
-    });
+    })
   }
   return { setHit, setMessage, displaySunk }
 }
 
 export { createUI }
-
-

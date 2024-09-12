@@ -1,27 +1,18 @@
 import { human, computer, game, UI } from './index.js'
 
 function createFleet (name) {
-  const ships = [
-    { name: 'Carrier', length: 5 },
-    { name: 'Battleship', length: 4 },
-    { name: 'Battleship', length: 4 },
-    { name: 'Cruiser', length: 3 },
-    { name: 'Cruiser', length: 3 },
-    { name: 'Cruiser', length: 3 },
-    { name: 'Submarine', length: 3 },
-    { name: 'Submarine', length: 3 },
-    { name: 'Submarine', length: 3 },
-    { name: 'Submarine', length: 3 },
-    { name: 'Destroyer', length: 2 },
-    { name: 'Destroyer', length: 2 },
-    { name: 'Destroyer', length: 2 },
-    { name: 'Destroyer', length: 2 },
-    { name: 'Destroyer', length: 2 }
+  const shipTypes = [
+    { name: 'Carrier', length: 5, number: 1 },
+    { name: 'Battleship', length: 4, number: 2 },
+    { name: 'Cruiser', length: 3, number: 3 },
+    { name: 'Submarine', length: 3, number: 4 },
+    { name: 'Destroyer', length: 2, number: 5 }
   ]
-  for (const ship of ships) {
-    ship.hits = 0
-    ship.sunk = false
-    ship.fields = []
+  const ships = []
+  for (const type of shipTypes) {
+    for (let i = 0; i < type.number; i++) {
+      ships.push({ name: type.name, length: type.length, hits: 0, sunk: false, fields: [] })
+    }
   }
   function hit (index) {
     ships[index].hits += 1
@@ -62,7 +53,10 @@ function createFleet (name) {
       }
     })
   }
-  return { hit, placeFleet, fleetStatus }
+  function fleetComposition () {
+    return shipTypes
+  }
+  return { hit, placeFleet, fleetStatus, fleetComposition }
 }
 
 export { createFleet }

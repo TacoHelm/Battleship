@@ -8,12 +8,14 @@ getField([x, y])                        returns the field object at x, y
 
 
 FLEET
-array of ship objects with properties name(string) length(number) hits(number) shipSunk(boolean) fields(array)
+array with ship type objects: name number and length
+array of ship objects: name(string) length(number) hits(number) shipSunk(boolean) fields(array)
 
 hit(fleetArrayIndex)        hit++, change shipSunk if hits = length, display a messaga, call UI.displaySunk, call fleetStatus 
 fleetStatus()               calls game.end() if all ships have been sunk
 placeFleet()                for each ship call putShip with a array of consecutive fields in a random direction and the index of the fleet array of the ship and
-                            keep calling putShip until return is true. Add that array to fields array of ship object                 
+                            keep calling putShip until return is true. Add that array to fields array of ship object 
+fleetComposition()          return array with ship types                
                 
 
 PLAYER
@@ -30,14 +32,17 @@ INDEX
 Initialize 2 new Players call placeFleet call game.loop
 
 UI
-Container div for the entire game
-  Title div
-  Message div
-  Human board
-  Computer board
-    A grid of 10 x 10 divs in arrays humanFields or humanBoard
-    With classes human/computer, not-hit, ship/empty, and xy00 with 00 the X and Y coordinates
-    With event listener that calls a playerTurn  
+Divs:
+Container
+  Title 
+  Message 
+  player 
+    name
+    fleet
+    board
+      A grid of 10 x 10 divs in arrays humanFields or humanBoard
+      With classes human/computer, not-hit, ship/empty, and xy00 with 00 the X and Y coordinates
+      With event listener that calls a playerTurn  
 
 setHit(name, [x, y])          Changes the class from not-hit to hit for the field [x, y] in board of name
 setMessage(string)            Adds the message to a message queue to be displayed in messageBox div at least 2.5s and highlighted with class new for 2.5s.  
