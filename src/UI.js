@@ -4,6 +4,7 @@ function createUI () {
   const messageQueue = []                                 // Queue for messages to display by function setMessage
   const body = document.querySelector('body')
   const container = body.appendChild(document.createElement('div'))
+  container.classList.add('container')
   const title = container.appendChild(document.createElement('div'))
   title.classList.add('title')
   title.textContent = 'Zeeslag'

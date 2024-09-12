@@ -61,7 +61,6 @@ function createFleet (name) {
         }
       }
     })
-  console.log(name, ships)
   }
   return { hit, placeFleet, fleetStatus }
 }

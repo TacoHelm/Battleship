@@ -1,17 +1,42 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: grid;
+    grid-template-rows: 1fr 1fr 5fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 20px;
+    grid-template-areas: 
+        "title title"
+        "message message"
+        "human-board computer-board";
+}
+
 .title{
-    font-size: 32px;
+    font-size: 64px;
+    grid-area: title;
+    text-align: center;
+    align-self: center;
+}
+
+.messageBox {
+    font-size: 48px;
+    grid-area: message;
+    text-align: center;
+    align-self: center;
+    padding: 1rem 2rem;
 }
 
 .board {
     display: grid;
     grid-template: repeat(10, 1fr) / repeat(10, 1fr); 
-    height: 500px;
-    width: 500px;
-    margin: 20px;
-}
-
-.field {
-    margin: 3px;
+    gap: 5px 5px;
+    height: 600px;
+    width: 600px;
+    gap: 3px 3px;
 }
 
 .ship.hit {
@@ -35,13 +60,8 @@
     background-color: grey;
 }
 
-.messageBox {
-    height: 3em;
-    font-size: 20px;
-}
-
 .messageBox.new{
-    background-color: yellow;
+    color: red;
 }
 
 
