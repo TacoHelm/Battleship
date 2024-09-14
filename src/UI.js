@@ -45,13 +45,25 @@ function createUI () {
       computer.board.getField(x, y).empty === true ? computerFields[x][y].classList.add('empty') : computerFields[x][y].classList.add('ship')
     }
   }
-  const shipTypes = human.fleet.fleetComposition()
-  for (let item of shipTypes){
+  const shipTypes = human.fleet.getFleet()
+  const humanProgressBars = []
+  const computerProgressBars = []
+  for (const item of shipTypes) {
     const divHuman = humanFleet.appendChild(document.createElement('div'))
     const divComputer = computerFleet.appendChild(document.createElement('div'))
-    let text = item.name + ' Length: ' + item.length + ' Nr: ' + item.number  
-    divHuman.textContent  = text
-    divComputer.textContent  = text
+    const textHuman = divHuman.appendChild(document.createElement('div'))
+    const textComputer = divComputer.appendChild(document.createElement('div'))
+    const text = item.name + ' Length: ' + item.length
+    textHuman.textContent = text
+    textComputer.textContent = text
+    textHuman.classList.add('ship-text')
+    textComputer.classList.add('ship-text')
+    const humanProgressBar = divHuman.appendChild(document.createElement('div'))
+    const computerProgressBar = divComputer.appendChild(document.createElement('div'))
+    humanProgressBar.classList.add('progress-bar', item.name)
+    computerProgressBar.classList.add('progress-bar', item.name)
+    humanProgressBars.push(humanProgressBar)
+    computerProgressBars.push(computerProgressBar)
   }
 
   function setHit (name, x, y) {
@@ -91,6 +103,28 @@ function createUI () {
         computerFields[x][y].classList.add('sunk')
       }
     })
+    if (name === 'human') {
+      const status = human.fleet.getFleet()
+      status.forEach(element => {
+        for (let i = 0; i < humanProgressBars.length; i++) {
+          if (humanProgressBars[i].classList.contains(element.name)) {
+            const width = (element.numberSunk / element.number) * 100
+            humanProgressBars[i].style.setProperty('--width', width)
+          }
+        }
+      })
+    }
+    if (name === 'computer') {
+      const status = computer.fleet.getFleet()
+      status.forEach(element => {
+        for (let i = 0; i < computerProgressBars.length; i++) {
+          if (computerProgressBars[i].classList.contains(element.name)) {
+            const width = (element.numberSunk / element.number) * 100
+            computerProgressBars[i].style.setProperty('--width', width)
+          }
+        }
+      })
+    }
   }
   return { setHit, setMessage, displaySunk }
 }

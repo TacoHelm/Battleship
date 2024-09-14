@@ -2,11 +2,11 @@ import { human, computer, game, UI } from './index.js'
 
 function createFleet (name) {
   const shipTypes = [
-    { name: 'Carrier', length: 5, number: 1 },
-    { name: 'Battleship', length: 4, number: 2 },
-    { name: 'Cruiser', length: 3, number: 3 },
-    { name: 'Submarine', length: 3, number: 4 },
-    { name: 'Destroyer', length: 2, number: 5 }
+    { name: 'Carrier', length: 5, number: 1, numberSunk: 0 },
+    { name: 'Battleship', length: 4, number: 2, numberSunk: 0 },
+    { name: 'Cruiser', length: 3, number: 3, numberSunk: 0 },
+    { name: 'Submarine', length: 3, number: 4, numberSunk: 0 },
+    { name: 'Destroyer', length: 2, number: 5, numberSunk: 0 }
   ]
   const ships = []
   for (const type of shipTypes) {
@@ -18,12 +18,15 @@ function createFleet (name) {
     ships[index].hits += 1
     if (ships[index].hits === ships[index].length) {
       ships[index].sunk = true
-      UI.setMessage(`A ${ships[index].name} from ${name} sunk!`)
+      UI.setMessage(`A ${ships[index].name} from ${name} sunk!`)   
+      shipTypes.forEach(type => {
+        if (type.name === ships[index].name) type.numberSunk++
+      })
       UI.displaySunk(ships[index].fields, name)
-      fleetStatus()
+      checkGameEnd()
     }
   }
-  function fleetStatus () {
+  function checkGameEnd () {
     let allSunk = true
     for (const ship of ships) {
       if (ship.sunk === false) allSunk = false
@@ -53,10 +56,10 @@ function createFleet (name) {
       }
     })
   }
-  function fleetComposition () {
+  function getFleet () {
     return shipTypes
   }
-  return { hit, placeFleet, fleetStatus, fleetComposition }
+  return { hit, placeFleet, checkGameEnd, getFleet }
 }
 
 export { createFleet }
