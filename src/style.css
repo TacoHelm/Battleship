@@ -99,21 +99,19 @@ body {
     gap: 3px 3px;
 }
 
-.ship.hit {
-    background-color: orange;
+.ship.hit,
+.sunk {
+    background-image: url(./assets/cross.svg);
 }
 
-.ship.sunk {
-    background-color: red;
+.ship {
+    background-color: black;
 }
 
-.human.empty,
+
+.human.empty, 
 .computer.empty.hit {
     background-color: blue;
-}
-
-.human.ship.not-hit {
-    background-color: black;
 }
 
 .computer.not-hit {
