@@ -56,10 +56,23 @@ body {
 }
 
 .fleet{
-    font-size: 20px;
-    text-align: center;
-    align-self: center;
     grid-area: fleet;
+}
+
+.ship-container{
+    position: relative;
+    margin: 1rem 2rem;
+}
+
+.ship-text{
+    font-size: 24px;
+}
+
+.ship-symbol{
+    font-size: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .progress-bar{
@@ -71,6 +84,7 @@ body {
     content: '';
     display: flex;
     width: calc(var(--width) * 1%);
+    min-width: 3%;
     height: 2rem;
     background-color: green;
 }

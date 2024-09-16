@@ -51,17 +51,26 @@ function createUI () {
   for (const item of shipTypes) {
     const divHuman = humanFleet.appendChild(document.createElement('div'))
     const divComputer = computerFleet.appendChild(document.createElement('div'))
+    divHuman.classList.add('ship-container')
+    divComputer.classList.add('ship-container')
     const textHuman = divHuman.appendChild(document.createElement('div'))
     const textComputer = divComputer.appendChild(document.createElement('div'))
-    const text = item.name + ' Length: ' + item.length
-    textHuman.textContent = text
-    textComputer.textContent = text
+    textHuman.textContent = item.name
+    textComputer.textContent = item.name
     textHuman.classList.add('ship-text')
     textComputer.classList.add('ship-text')
+    const shipSymbolHuman = divHuman.appendChild(document.createElement('div'))
+    const shipSymbolComputer = divComputer.appendChild(document.createElement('div'))
+    shipSymbolHuman.textContent = shipString(item.length)
+    shipSymbolComputer.textContent = shipString(item.length)
+    shipSymbolHuman.classList.add('ship-symbol')
+    shipSymbolComputer.classList.add('ship-symbol')
     const humanProgressBar = divHuman.appendChild(document.createElement('div'))
     const computerProgressBar = divComputer.appendChild(document.createElement('div'))
     humanProgressBar.classList.add('progress-bar', item.name)
     computerProgressBar.classList.add('progress-bar', item.name)
+    humanProgressBar.style.setProperty('--width', 3)
+    computerProgressBar.style.setProperty('--width', 3)
     humanProgressBars.push(humanProgressBar)
     computerProgressBars.push(computerProgressBar)
   }
@@ -125,6 +134,14 @@ function createUI () {
         }
       })
     }
+  }
+  function shipString(length){
+    let text = '\u25C0'
+    for (let i = 2; i < length; i++){
+      text += '\u25A0'
+    }
+    text += '\u25B6'
+    return text
   }
   return { setHit, setMessage, displaySunk }
 }
