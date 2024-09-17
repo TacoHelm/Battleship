@@ -122,4 +122,9 @@ body {
     color: red;
 }
 
+.message-box.won{
+    color: black;
+    background-color: red;
+}
+
 

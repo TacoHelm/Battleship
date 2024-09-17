@@ -4,7 +4,7 @@ function createUI () {
   const messageQueue = [] // Queue for messages to display by function setMessage
   const player = {}  // Objects for DOM-elements for human and computer
   const AI = {}
-  player.fields = []
+  player.fields = [] 
   AI.fields = []
   player.ships = []
   AI.ships = []
@@ -20,7 +20,7 @@ function createUI () {
   newDivBoth('board', 'container', ['board'])
   player.title.textContent = 'You'
   AI.title.textContent = 'Computer'
-  for (let x = 0; x < 10; x++) {
+  for (let x = 0; x < 10; x++) {  // Divs for board
     player.fields[x] = []
     AI.fields[x] = []
     for (let y = 0; y < 10; y++) {
@@ -32,7 +32,7 @@ function createUI () {
     }
   }
   const shipTypes = human.fleet.getFleet()
-  shipTypes.forEach((item, index)=> {
+  shipTypes.forEach((item, index)=> {  // Divs for fleet display
     player.ships[index] = {}
     AI.ships[index] = {}
     player.ships[index].container = newDiv(player.fleet, ['ship-container'])
@@ -75,25 +75,17 @@ function createUI () {
       if (name === 'human') player.fields[x][y].classList.replace('hit', 'sunk')    
       if (name === 'computer') AI.fields[x][y].classList.replace('hit', 'sunk')
     })
-    if (name === 'human') {
-      const status = human.fleet.getFleet()
-      status.forEach(element => {
+    if (name === 'human') {    
+      human.fleet.getFleet().forEach(element => {
         for (let i = 0; i < player.ships.length; i++) {
-          if (player.ships[i].bar.classList.contains(element.name)) {
-            const width = (element.numberSunk / element.number) * 100
-            player.ships[i].bar.style.setProperty('--width', width)
-          }
+          if (player.ships[i].bar.classList.contains(element.name)) player.ships[i].bar.style.setProperty('--width', ((element.numberSunk / element.number) * 100))
         }
       })
     }
     if (name === 'computer') {
-      const status = computer.fleet.getFleet()
-      status.forEach(element => {
+      computer.fleet.getFleet().forEach(element => {
         for (let i = 0; i < AI.ships.length; i++) {
-          if (AI.ships[i].bar.classList.contains(element.name)) {
-            const width = (element.numberSunk / element.number) * 100
-            AI.ships[i].bar.style.setProperty('--width', width)
-          }
+          if (AI.ships[i].bar.classList.contains(element.name)) AI.ships[i].bar.style.setProperty('--width', ((element.numberSunk / element.number) * 100))
         }
       })
     }
@@ -115,7 +107,15 @@ function createUI () {
     player[divName] = newDiv(player[parent], classes)
     AI[divName] = newDiv(AI[parent], classes)
   }
-  return { setHit, setMessage, displaySunk }
+  function endGame () {
+    for (let x = 0; x < 10; x++){
+      for (let y = 0; y < 10; y++){
+      AI.fields[x][y].removeEventListener('click', (evt) => game.humanTurn(evt))
+      }
+    }
+  messageBox.classList.replace('new', 'won')  
+  }
+  return { setHit, setMessage, displaySunk, endGame }
 }
 
 export { createUI }

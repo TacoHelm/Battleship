@@ -50,5 +50,8 @@ setHit(name, [x, y])          Changes the class from not-hit to hit for the fiel
 setMessage(string)            Adds the message to a message queue to be displayed in messageBox div at least 2.5s and highlighted with class new for 2.5s.  
 displaySunk(fields, name)     Removes class hit and sets it to sunk for ship with given fleetArrayIndex, calls getFleet, updates width of all progress bars
 shipString(length)            Returns a symbol string representing the given ships length
+newDiv(parent, classes)       Returns a div appended to parent with classes in classlist
+newDivBoth(divName, parent, classes)  Adds a new div to both the player and AI DOM Objects
+removeEventListeners          Removes the event listeners on computer board fields
 
  

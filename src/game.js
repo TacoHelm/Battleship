@@ -22,6 +22,7 @@ function createGame () {
   const end = function (name) {
     if (name === 'human') UI.setMessage('Player has lost his fleet. Computer has won')
     if (name === 'computer') UI.setMessage('Computer has lost his fleet. You have won')
+    UI.endGame()
   }
   return { humanTurn, end }
 }
