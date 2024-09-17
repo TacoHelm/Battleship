@@ -18,7 +18,7 @@ function createFleet (name) {
     ships[index].hits += 1
     if (ships[index].hits === ships[index].length) {
       ships[index].sunk = true
-      UI.setMessage(`A ${ships[index].name} from ${name} sunk!`)   
+      UI.setMessage(`A ${ships[index].name} from ${name} sunk!`)
       shipTypes.forEach(type => {
         if (type.name === ships[index].name) type.numberSunk++
       })

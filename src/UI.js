@@ -2,95 +2,64 @@ import { human, computer, game } from './index'
 
 function createUI () {
   const messageQueue = [] // Queue for messages to display by function setMessage
+  const player = {}  // Objects for DOM-elements for human and computer
+  const AI = {}
+  player.fields = []
+  AI.fields = []
+  player.ships = []
+  AI.ships = []
   const body = document.querySelector('body')
-  const container = body.appendChild(document.createElement('div'))
-  container.classList.add('container')
-  const title = container.appendChild(document.createElement('div'))
-  title.classList.add('title')
+  const container = newDiv(body, ['container'])
+  const title = newDiv(container, ['title'])
   title.textContent = 'Zeeslag'
-  const messageBox = container.appendChild(document.createElement('div'))
-  messageBox.classList.add('messageBox')
-  const humanContainer = container.appendChild(document.createElement('div'))
-  const humanTitle = humanContainer.appendChild(document.createElement('div'))
-  const humanFleet = humanContainer.appendChild(document.createElement('div'))
-  const humanBoard = humanContainer.appendChild(document.createElement('div'))
-  humanContainer.classList.add('player-container', 'human')
-  humanTitle.classList.add('player-title')
-  humanTitle.textContent = 'You'
-  humanFleet.classList.add('fleet')
-  humanBoard.classList.add('board')
-  const computerContainer = container.appendChild(document.createElement('div'))
-  const computerTitle = computerContainer.appendChild(document.createElement('div'))
-  const computerBoard = computerContainer.appendChild(document.createElement('div'))
-  const computerFleet = computerContainer.appendChild(document.createElement('div'))
-  computerContainer.classList.add('player-container', 'computer')
-  computerTitle.classList.add('player-title')
-  computerTitle.textContent = 'Computer'
-  computerFleet.classList.add('fleet')
-  computerBoard.classList.add('board')
-  const humanFields = []
-  const computerFields = []
+  const messageBox = newDiv(container, ['message-box'])
+  player.container = newDiv(container, ['player-container', 'human'])
+  AI.container = newDiv(container, ['player-container', 'computer'])
+  newDivBoth('title', 'container', ['player-title'])
+  newDivBoth('fleet', 'container', ['fleet'])
+  newDivBoth('board', 'container', ['board'])
+  player.title.textContent = 'You'
+  AI.title.textContent = 'Computer'
   for (let x = 0; x < 10; x++) {
-    humanFields[x] = []
-    computerFields[x] = []
+    player.fields[x] = []
+    AI.fields[x] = []
     for (let y = 0; y < 10; y++) {
-      humanFields[x].push(humanBoard.appendChild(document.createElement('div')))
-      computerFields[x].push(computerBoard.appendChild(document.createElement('div')))
-      humanFields[x][y].classList.add('field', 'human', 'not-hit', `xy${x}${y}`)
-      computerFields[x][y].classList.add('field', 'computer', 'not-hit', `xy${x}${y}`)
-      computerFields[x][y].addEventListener('click', (evt) => {
-        game.humanTurn(evt)
-      })
-      human.board.getField(x, y).empty === true ? humanFields[x][y].classList.add('empty') : humanFields[x][y].classList.add('ship')
-      computer.board.getField(x, y).empty === true ? computerFields[x][y].classList.add('empty') : computerFields[x][y].classList.add('ship')
+      player.fields[x].push(newDiv(player.board, ['field', 'human', 'not-hit', `xy${x}${y}`]))
+      AI.fields[x].push(newDiv(AI.board, ['field', 'computer', 'not-hit', `xy${x}${y}`]))
+      AI.fields[x][y].addEventListener('click', (evt) => game.humanTurn(evt))
+      human.board.getField(x, y).empty === true ? player.fields[x][y].classList.add('empty') : player.fields[x][y].classList.add('ship')
+      computer.board.getField(x, y).empty === true ? AI.fields[x][y].classList.add('empty') : AI.fields[x][y].classList.add('ship')
     }
   }
   const shipTypes = human.fleet.getFleet()
-  const humanProgressBars = []
-  const computerProgressBars = []
-  for (const item of shipTypes) {
-    const divHuman = humanFleet.appendChild(document.createElement('div'))
-    const divComputer = computerFleet.appendChild(document.createElement('div'))
-    divHuman.classList.add('ship-container')
-    divComputer.classList.add('ship-container')
-    const textHuman = divHuman.appendChild(document.createElement('div'))
-    const textComputer = divComputer.appendChild(document.createElement('div'))
-    textHuman.textContent = item.name
-    textComputer.textContent = item.name
-    textHuman.classList.add('ship-text')
-    textComputer.classList.add('ship-text')
-    const shipSymbolHuman = divHuman.appendChild(document.createElement('div'))
-    const shipSymbolComputer = divComputer.appendChild(document.createElement('div'))
-    shipSymbolHuman.textContent = shipString(item.length)
-    shipSymbolComputer.textContent = shipString(item.length)
-    shipSymbolHuman.classList.add('ship-symbol')
-    shipSymbolComputer.classList.add('ship-symbol')
-    const humanProgressBar = divHuman.appendChild(document.createElement('div'))
-    const computerProgressBar = divComputer.appendChild(document.createElement('div'))
-    humanProgressBar.classList.add('progress-bar', item.name)
-    computerProgressBar.classList.add('progress-bar', item.name)
-    humanProgressBar.style.setProperty('--width', 3)
-    computerProgressBar.style.setProperty('--width', 3)
-    humanProgressBars.push(humanProgressBar)
-    computerProgressBars.push(computerProgressBar)
-  }
-
+  shipTypes.forEach((item, index)=> {
+    player.ships[index] = {}
+    AI.ships[index] = {}
+    player.ships[index].container = newDiv(player.fleet, ['ship-container'])
+    AI.ships[index].container = newDiv(AI.fleet, ['ship-container'])
+    player.ships[index].title = newDiv(player.ships[index].container, ['ship-text'])
+    AI.ships[index].title = newDiv(AI.ships[index].container, ['ship-text'])
+    player.ships[index].title.textContent = item.name
+    AI.ships[index].title.textContent = item.name
+    player.ships[index].symbol = newDiv(player.ships[index].container, ['ship-symbol'])
+    AI.ships[index].symbol = newDiv(AI.ships[index].container, ['ship-symbol'])
+    player.ships[index].symbol.textContent = shipString(item.length)
+    AI.ships[index].symbol.textContent = shipString(item.length)
+    player.ships[index].bar = newDiv(player.ships[index].container, ['progress-bar', item.name])
+    AI.ships[index].bar = newDiv(AI.ships[index].container, ['progress-bar', item.name])
+    player.ships[index].bar.style.setProperty('--width', 3)
+    AI.ships[index].bar.style.setProperty('--width', 3)
+  })
   function setHit (name, x, y) {
-    if (name === 'human') {
-      humanFields[x][y].classList.add('hit')
-      humanFields[x][y].classList.remove('not-hit')
-    }
-    if (name === 'computer') {
-      computerFields[x][y].classList.add('hit')
-      computerFields[x][y].classList.remove('not-hit')
-    }
+    if (name === 'human') player.fields[x][y].classList.replace('not-hit', 'hit')
+    if (name === 'computer') AI.fields[x][y].classList.replace('not-hit', 'hit')
   }
   function setMessage (string) {
     messageQueue.push(string)
     if (!messageBox.classList.contains('new')) { // Tests indirectly if there is an active timeout
       messageBox.textContent = messageQueue.shift()
       messageBox.classList.add('new')
-      setTimeout(setMessageCallback, 2500)
+      setTimeout(setMessageCallback, 1500)
     }
   }
   function setMessageCallback () { // Callback for timeout in function setMessage
@@ -98,27 +67,21 @@ function createUI () {
     if (messageQueue.length > 0) {
       messageBox.textContent = messageQueue.shift()
       messageBox.classList.add('new')
-      setTimeout(setMessageCallback, 2500)
+      setTimeout(setMessageCallback, 1500)
     }
   }
   function displaySunk (fields, name) {
     fields.forEach(([x, y]) => {
-      if (name === 'human') {
-        humanFields[x][y].classList.remove('hit')
-        humanFields[x][y].classList.add('sunk')
-      }
-      if (name === 'computer') {
-        computerFields[x][y].classList.remove('hit')
-        computerFields[x][y].classList.add('sunk')
-      }
+      if (name === 'human') player.fields[x][y].classList.replace('hit', 'sunk')    
+      if (name === 'computer') AI.fields[x][y].classList.replace('hit', 'sunk')
     })
     if (name === 'human') {
       const status = human.fleet.getFleet()
       status.forEach(element => {
-        for (let i = 0; i < humanProgressBars.length; i++) {
-          if (humanProgressBars[i].classList.contains(element.name)) {
+        for (let i = 0; i < player.ships.length; i++) {
+          if (player.ships[i].bar.classList.contains(element.name)) {
             const width = (element.numberSunk / element.number) * 100
-            humanProgressBars[i].style.setProperty('--width', width)
+            player.ships[i].bar.style.setProperty('--width', width)
           }
         }
       })
@@ -126,22 +89,31 @@ function createUI () {
     if (name === 'computer') {
       const status = computer.fleet.getFleet()
       status.forEach(element => {
-        for (let i = 0; i < computerProgressBars.length; i++) {
-          if (computerProgressBars[i].classList.contains(element.name)) {
+        for (let i = 0; i < AI.ships.length; i++) {
+          if (AI.ships[i].bar.classList.contains(element.name)) {
             const width = (element.numberSunk / element.number) * 100
-            computerProgressBars[i].style.setProperty('--width', width)
+            AI.ships[i].bar.style.setProperty('--width', width)
           }
         }
       })
     }
   }
-  function shipString(length){
+  function shipString (length) {
     let text = '\u25C0'
-    for (let i = 2; i < length; i++){
+    for (let i = 2; i < length; i++) {
       text += '\u25A0'
     }
     text += '\u25B6'
     return text
+  }
+  function newDiv (parent, classes) {
+    const div = parent.appendChild(document.createElement('div'))
+    classes.forEach((element) => div.classList.add(element))
+    return div
+  }
+  function newDivBoth (divName, parent, classes) {
+    player[divName] = newDiv(player[parent], classes)
+    AI[divName] = newDiv(AI[parent], classes)
   }
   return { setHit, setMessage, displaySunk }
 }
