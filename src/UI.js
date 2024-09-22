@@ -2,9 +2,9 @@ import { human, computer, game } from './index'
 
 function createUI () {
   const messageQueue = [] // Queue for messages to display by function setMessage
-  const player = {}  // Objects for DOM-elements for human and computer
+  const player = {} // Objects for DOM-elements for human and computer
   const AI = {}
-  player.fields = [] 
+  player.fields = []
   AI.fields = []
   player.ships = []
   AI.ships = []
@@ -20,7 +20,7 @@ function createUI () {
   newDivBoth('board', 'container', ['board'])
   player.title.textContent = 'You'
   AI.title.textContent = 'Computer'
-  for (let x = 0; x < 10; x++) {  // Divs for board
+  for (let x = 0; x < 10; x++) { // Divs for board
     player.fields[x] = []
     AI.fields[x] = []
     for (let y = 0; y < 10; y++) {
@@ -32,7 +32,7 @@ function createUI () {
     }
   }
   const shipTypes = human.fleet.getFleet()
-  shipTypes.forEach((item, index)=> {  // Divs for fleet display
+  shipTypes.forEach((item, index) => { // Divs for fleet display
     player.ships[index] = {}
     AI.ships[index] = {}
     player.ships[index].container = newDiv(player.fleet, ['ship-container'])
@@ -47,8 +47,8 @@ function createUI () {
     AI.ships[index].symbol.textContent = shipString(item.length)
     player.ships[index].bar = newDiv(player.ships[index].container, ['progress-bar', item.name])
     AI.ships[index].bar = newDiv(AI.ships[index].container, ['progress-bar', item.name])
-    player.ships[index].bar.style.setProperty('--width', 3)
-    AI.ships[index].bar.style.setProperty('--width', 3)
+    player.ships[index].bar.style.setProperty('--width', 10)
+    AI.ships[index].bar.style.setProperty('--width', 10)
   })
   function setHit (name, x, y) {
     if (name === 'human') player.fields[x][y].classList.replace('not-hit', 'hit')
@@ -72,30 +72,33 @@ function createUI () {
   }
   function displaySunk (fields, name) {
     fields.forEach(([x, y]) => {
-      if (name === 'human') player.fields[x][y].classList.replace('hit', 'sunk')    
+      if (name === 'human') player.fields[x][y].classList.replace('hit', 'sunk')
       if (name === 'computer') AI.fields[x][y].classList.replace('hit', 'sunk')
     })
-    if (name === 'human') {    
+    if (name === 'human') {
       human.fleet.getFleet().forEach(element => {
         for (let i = 0; i < player.ships.length; i++) {
-          if (player.ships[i].bar.classList.contains(element.name)) player.ships[i].bar.style.setProperty('--width', ((element.numberSunk / element.number) * 100))
+          if (player.ships[i].bar.classList.contains(element.name)) {
+            player.ships[i].bar.style.setProperty('--width', Math.max(((element.numberSunk / element.number) * 100), 10))
+          }
         }
       })
     }
     if (name === 'computer') {
       computer.fleet.getFleet().forEach(element => {
         for (let i = 0; i < AI.ships.length; i++) {
-          if (AI.ships[i].bar.classList.contains(element.name)) AI.ships[i].bar.style.setProperty('--width', ((element.numberSunk / element.number) * 100))
+          if (AI.ships[i].bar.classList.contains(element.name)) {
+            AI.ships[i].bar.style.setProperty('--width', Math.max(((element.numberSunk / element.number) * 100), 10))
+          }
         }
       })
     }
   }
   function shipString (length) {
-    let text = '\u25C0'
-    for (let i = 2; i < length; i++) {
+    let text = '\u25A0'
+    for (let i = 1; i < length; i++) {
       text += '\u25A0'
     }
-    text += '\u25B6'
     return text
   }
   function newDiv (parent, classes) {
@@ -108,12 +111,12 @@ function createUI () {
     AI[divName] = newDiv(AI[parent], classes)
   }
   function endGame () {
-    for (let x = 0; x < 10; x++){
-      for (let y = 0; y < 10; y++){
-      AI.fields[x][y].removeEventListener('click', (evt) => game.humanTurn(evt))
+    for (let x = 0; x < 10; x++) {
+      for (let y = 0; y < 10; y++) {
+        AI.fields[x][y].removeEventListener('click', (evt) => game.humanTurn(evt))
       }
     }
-  messageBox.classList.replace('new', 'won')  
+    messageBox.classList.replace('new', 'won')
   }
   return { setHit, setMessage, displaySunk, endGame }
 }
