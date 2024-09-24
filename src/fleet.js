@@ -4,9 +4,9 @@ function createFleet (name) {
   const shipTypes = [
     { name: 'Carrier', length: 5, number: 1, numberSunk: 0 },
     { name: 'Battleship', length: 4, number: 2, numberSunk: 0 },
-    { name: 'Cruiser', length: 3, number: 3, numberSunk: 0 },
-    { name: 'Submarine', length: 3, number: 4, numberSunk: 0 },
-    { name: 'Destroyer', length: 2, number: 5, numberSunk: 0 }
+    { name: 'Cruiser', length: 3, number: 3, numberSunk: 0 }
+    // { name: 'Submarine', length: 3, number: 4, numberSunk: 0 },
+    // { name: 'Destroyer', length: 2, number: 5, numberSunk: 0 }
   ]
   const ships = []
   for (const type of shipTypes) {
@@ -59,7 +59,13 @@ function createFleet (name) {
   function getFleet () {
     return shipTypes
   }
-  return { hit, placeFleet, checkGameEnd, getFleet }
+  function getShips () {
+    return ships
+  }
+  function setFields (index, fields) {
+    ships[index].fields = fields
+  }
+  return { hit, placeFleet, checkGameEnd, getFleet, getShips, setFields }
 }
 
 export { createFleet }

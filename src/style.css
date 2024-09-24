@@ -3,9 +3,10 @@
     box-sizing: border-box;
     margin: 0;
     --red: hsl(0, 100%, 40%);
-    --dark-blue: hsl(240, 100%, 30%);
+    --dark-blue: hsl(240, 100%, 35%);
     --light-blue: hsl(187, 100%, 90%);
-    --grey: hsl(0, 0%, 60%);
+    --grey: hsl(0, 0%, 70%);
+    --dark-grey: hsl(0, 0%, 30%);
 }
 
 body {
@@ -126,7 +127,11 @@ body {
     grid-template: repeat(10, 1fr) / repeat(10, 1fr); 
     height: 550px;
     width: 550px;
-    gap: 5px;
+    border: 5px solid black;
+}
+
+.field {
+    border: 2px solid var(--dark-grey)
 }
 
 
@@ -140,14 +145,13 @@ path {
     fill: var(--red);
     color: var(--red)
 }
-
-.ship {
-    background-color: black;
-}
-
-
 .human.empty {
     background-color: var(--dark-blue)
+}
+
+.ship,
+.human.show {
+    background-color: black;
 }
 
 .human.empty.hit {

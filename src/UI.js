@@ -26,7 +26,6 @@ function createUI () {
     for (let y = 0; y < 10; y++) {
       player.fields[x].push(newDiv(player.board, ['field', 'human', 'not-hit', `xy${x}${y}`]))
       AI.fields[x].push(newDiv(AI.board, ['field', 'computer', 'not-hit', `xy${x}${y}`]))
-      AI.fields[x][y].addEventListener('click', (evt) => game.humanTurn(evt))
       human.board.getField(x, y).empty === true ? player.fields[x][y].classList.add('empty') : player.fields[x][y].classList.add('ship')
       computer.board.getField(x, y).empty === true ? AI.fields[x][y].classList.add('empty') : AI.fields[x][y].classList.add('ship')
     }
@@ -118,7 +117,14 @@ function createUI () {
     }
     messageBox.classList.replace('new', 'won')
   }
-  return { setHit, setMessage, displaySunk, endGame }
+  function startGame () {
+    for (let x = 0; x < 10; x++) {
+      for (let y = 0; y < 10; y++) {
+        AI.fields[x][y].addEventListener('click', (evt) => game.humanTurn(evt))
+      }
+    }
+  }
+  return { setHit, setMessage, displaySunk, endGame, startGame, player }
 }
 
 export { createUI }
