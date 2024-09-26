@@ -9,6 +9,7 @@ const computer = createPlayer('computer')
 const game = createGame()
 computer.fleet.placeFleet()
 const UI = createUI()
+UI.setMessage("Let's start!")
 placeShips()
 
 export { human, computer, game, UI }

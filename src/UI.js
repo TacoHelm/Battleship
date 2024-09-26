@@ -123,6 +123,7 @@ function createUI () {
         AI.fields[x][y].addEventListener('click', (evt) => game.humanTurn(evt))
       }
     }
+  setMessage("Let the battle begin! Attack computer fields by clicking on them")
   }
   return { setHit, setMessage, displaySunk, endGame, startGame, player }
 }
